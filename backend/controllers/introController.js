@@ -24,6 +24,7 @@ const getOrCreateSession = async (sessionId, formData) => {
  * POST /api/intro/suggest
  */
 exports.getSuggestions = async (req, res) => {
+    console.log('Received suggestion request:', req.body);
   try {
     const { type, formData, sessionId } = req.body;
 
