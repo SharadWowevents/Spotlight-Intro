@@ -15,24 +15,17 @@ export default function RevealScreen({ formData, onEdit, onStartOver }) {
     try {
       const sessionId = window.localStorage.getItem('spotlight_session_id') || undefined;
 
+      // Pointing directly to your local Express server
       const response = await fetch('/api/intro/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          formData,
-          sessionId
-        })
+        body: JSON.stringify({ formData, sessionId })
       });
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
       const data = await response.json();
-
-      if (data.sessionId) {
-        window.localStorage.setItem('spotlight_session_id', data.sessionId);
-      }
+      if (data.sessionId) window.localStorage.setItem('spotlight_session_id', data.sessionId);
 
       if (data && typeof data.full === 'string' && data.full.trim()) {
         setResult({
@@ -52,19 +45,15 @@ export default function RevealScreen({ formData, onEdit, onStartOver }) {
     }
   };
 
-  // Run generation once when the component mounts
   useEffect(() => {
     runReveal();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(result.full).then(() => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 1600);
-    }).catch(() => {
-      alert('Failed to copy to clipboard');
-    });
+    }).catch(() => alert('Failed to copy to clipboard'));
   };
 
   return (
@@ -75,17 +64,11 @@ export default function RevealScreen({ formData, onEdit, onStartOver }) {
             <div className="reveal-loading"><span className="dot-pulse"></span> Crafting your intro…</div>
           ) : (
             <>
-              <div className="full-line">
-                <HighlightedText text={result.full} />
-              </div>
-
+              <div className="full-line"><HighlightedText text={result.full} /></div>
               <div className="short-wrap">
                 <div className="short-label">10-second version</div>
-                <div className="short-line">
-                  <HighlightedText text={result.short} />
-                </div>
+                <div className="short-line"><HighlightedText text={result.short} /></div>
               </div>
-
               {revealError && <div className="fallback-note">{revealError}</div>}
             </>
           )}
@@ -109,7 +92,6 @@ export default function RevealScreen({ formData, onEdit, onStartOver }) {
           </button>
         )}
       </div>
-
       <div className={`toast ${showToast ? 'show' : ''}`}>Copied to clipboard</div>
     </>
   );
