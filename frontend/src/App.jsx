@@ -64,6 +64,7 @@ export default function App() {
         {typeof currentStep === 'number' && (
           <StepScreen
             step={STEPS[currentStep]}
+            isFirst={currentStep === 0}
             isLast={currentStep === STEPS.length - 1}
             formData={formData}
             onChange={handleChange}
