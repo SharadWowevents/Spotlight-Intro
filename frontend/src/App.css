@@ -94,9 +94,10 @@ h1, h2, h3 {
 
 /* ---------- stage ---------- */
 .stage {
-  flex: 1 1 auto;
+  flex: 1 1 0%; /* Forces the container to calculate height from the screen, not the content */
+  min-height: 0; /* Crucial: Prevents flex children from blowing past the parent's height */
   overflow-y: auto;
-  padding: clamp(18px, 5vw, 32px) clamp(16px, 4vw, 28px) 4px;
+  padding: clamp(18px,5vw,32px) clamp(16px,4vw,28px) 4px;
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +107,7 @@ h1, h2, h3 {
 .screen {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto; 
+  flex: 1 0 auto; /* Allows the screen content to grow and trigger the scrollbar */
   min-height: min-content;
 }
 
@@ -256,19 +257,17 @@ h1, h2, h3 {
 /* ---------- reveal ---------- */
 /* ---------- reveal ---------- */
 .reveal {
-  flex: 1 0 auto;
+  flex: 1 0 auto; /* Allows the reveal content to grow and trigger the scrollbar */
   display: flex;
   flex-direction: column;
-  min-height: min-content;
-  padding-bottom: 24px; /* Adds breathing room at the very bottom */
+  padding-bottom: 32px; /* Adds safe breathing room below the buttons */
 }
 .reveal-body {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 26px;
-  margin: auto 0; /* Safely centers the content without clipping the top */
-  min-height: min-content;
   padding: 24px 0;
 }
 .reveal-loading {
