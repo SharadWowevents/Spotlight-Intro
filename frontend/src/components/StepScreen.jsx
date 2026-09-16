@@ -3,6 +3,7 @@ import SuggestionBlock from './SuggestionBlock';
 
 export default function StepScreen({ 
   step, 
+  isFirst, // <-- 1. Add this new prop
   isLast, 
   formData, 
   onChange, 
@@ -57,7 +58,7 @@ export default function StepScreen({
 
       {step.suggestField && (
         <SuggestionBlock 
-          key={step.id} /* THIS FIXES THE BUG: Forces a fresh block on step change */
+          key={step.id} 
           step={step} 
           formData={formData} 
           onSelect={(val) => onChange(step.suggestField, val)} 
@@ -67,7 +68,10 @@ export default function StepScreen({
       <div style={{ flex: 1 }}></div>
 
       <div className="navbar">
-        <button className="btn btn-ghost" onClick={onBack}>← Back</button>
+        {/* 2. Conditionally render the Back button */}
+        {!isFirst && (
+          <button className="btn btn-ghost" onClick={onBack}>← Back</button>
+        )}
         <button className="btn btn-primary" disabled={!isValid} onClick={onNext}>
           {isLast ? 'Generate my intro →' : 'Continue →'}
         </button>
