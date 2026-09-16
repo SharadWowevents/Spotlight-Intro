@@ -43,7 +43,8 @@ h1, h2, h3 {
 }
 
 #app {
-  height: 100%;
+  height: 100dvh; /* Uses dynamic viewport height (fixes mobile browser address bars) */
+  max-height: 100vh; /* Fallback for older browsers */
   display: flex;
   flex-direction: column;
   max-width: 640px;
@@ -94,12 +95,12 @@ h1, h2, h3 {
 
 /* ---------- stage ---------- */
 .stage {
-  flex: 1 1 0%; /* Forces the container to calculate height from the screen, not the content */
-  min-height: 0; /* Crucial: Prevents flex children from blowing past the parent's height */
-  overflow-y: auto;
+  flex: 1 1 0%;
+  min-height: 0;
+  overflow-y: auto; /* Forces scrollbar */
+  overflow-x: hidden;
   padding: clamp(18px,5vw,32px) clamp(16px,4vw,28px) 4px;
-  display: flex;
-  flex-direction: column;
+  display: block; /* CHANGING THIS FROM 'flex' TO 'block' FIXES THE BUG */
 }
 .stage::-webkit-scrollbar { width: 6px; }
 .stage::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
@@ -107,8 +108,7 @@ h1, h2, h3 {
 .screen {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto; /* Allows the screen content to grow and trigger the scrollbar */
-  min-height: min-content;
+  min-height: 100%; /* Fills the screen, but allows content to push it taller */
 }
 
 .kicker {
@@ -257,16 +257,17 @@ h1, h2, h3 {
 /* ---------- reveal ---------- */
 /* ---------- reveal ---------- */
 .reveal {
-  flex: 1 0 auto; /* Allows the reveal content to grow and trigger the scrollbar */
   display: flex;
   flex-direction: column;
-  padding-bottom: 32px; /* Adds safe breathing room below the buttons */
+  min-height: 100%; /* Fills the screen, but allows content to push it taller */
+  padding-bottom: 24px;
 }
+
 .reveal-body {
-  flex: 1 0 auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* Safely centers the text vertically */
   gap: 26px;
   padding: 24px 0;
 }
