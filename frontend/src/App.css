@@ -103,7 +103,12 @@ h1, h2, h3 {
 .stage::-webkit-scrollbar { width: 6px; }
 .stage::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
-.screen { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto; 
+  min-height: min-content;
+}
 
 .kicker {
   font-family: 'IBM Plex Mono', monospace;
@@ -249,13 +254,22 @@ h1, h2, h3 {
 .welcome .template b { color: var(--accent); font-weight: 600; }
 
 /* ---------- reveal ---------- */
-.reveal { flex: 1; display: flex; flex-direction: column; }
-.reveal-body {
-  flex: 1;
+/* ---------- reveal ---------- */
+.reveal {
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  min-height: min-content;
+  padding-bottom: 24px; /* Adds breathing room at the very bottom */
+}
+.reveal-body {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
   gap: 26px;
+  margin: auto 0; /* Safely centers the content without clipping the top */
+  min-height: min-content;
+  padding: 24px 0;
 }
 .reveal-loading {
   font-family: 'IBM Plex Mono', monospace;
