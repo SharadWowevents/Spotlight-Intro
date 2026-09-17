@@ -19,7 +19,7 @@ export default function TopBar({ currentStep }) {
   return (
     <>
       <div className="topbar">
-        <span className="brand">WOW OS · FastTrack</span>
+        <span className="brand">WOWOS · Fast Track</span>
         <span className="stepcount">{stepText}</span>
       </div>
       <div className="progress">
