@@ -32,6 +32,10 @@ const IntroSessionSchema = new mongoose.Schema(
       dreamOutcome: { type: String, trim: true, default: '' },
       bigPromise: { type: String, trim: true, default: '' }
     },
+    privacyAccepted: {
+      type: Boolean,
+      default: true
+    },
     result: {
       full: { type: String, trim: true },
       short: { type: String, trim: true },

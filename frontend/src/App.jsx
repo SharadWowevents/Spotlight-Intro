@@ -6,12 +6,26 @@ import TopBar from './components/TopBar';
 import WelcomeScreen from './components/WelcomeScreen';
 import StepScreen from './components/StepScreen';
 import RevealScreen from './components/RevealScreen';
+import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState('welcome');
   const [formData, setFormData] = useState(INITIAL_STATE);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   const [aiState, setAiState] = useState({ api: null, checked: false });
+
+  // Show Privacy Policy when user lands on the page if not yet accepted
+  useEffect(() => {
+    try {
+      const accepted = localStorage.getItem('spotlight_privacy_accepted');
+      if (!accepted) {
+        setShowPrivacyPolicy(true);
+      }
+    } catch (e) {
+      setShowPrivacyPolicy(true);
+    }
+  }, []);
 
   // Initialize hypothetical window.claude API
   useEffect(() => {
@@ -52,13 +66,35 @@ export default function App() {
     setCurrentStep('welcome');
   };
 
+  const handleAcceptPrivacy = () => {
+    try {
+      localStorage.setItem('spotlight_privacy_accepted', 'true');
+    } catch (e) {}
+    setShowPrivacyPolicy(false);
+  };
+
+  const handleClosePrivacy = () => {
+    setShowPrivacyPolicy(false);
+  };
+
+  const handleOpenPrivacy = () => {
+    setShowPrivacyPolicy(true);
+  };
+
+  const handleStart = () => {
+    try {
+      localStorage.setItem('spotlight_privacy_accepted', 'true');
+    } catch (e) {}
+    setCurrentStep(0);
+  };
+
   return (
     <div id="app">
-      <TopBar currentStep={currentStep} />
+      <TopBar currentStep={currentStep} onOpenPrivacy={handleOpenPrivacy} />
 
       <div className="stage" id="stage">
         {currentStep === 'welcome' && (
-          <WelcomeScreen onStart={() => setCurrentStep(0)} />
+          <WelcomeScreen onStart={handleStart} onOpenPrivacy={handleOpenPrivacy} />
         )}
 
         {typeof currentStep === 'number' && (
@@ -83,6 +119,12 @@ export default function App() {
           />
         )}
       </div>
+
+      <PrivacyPolicyModal 
+        isOpen={showPrivacyPolicy}
+        onAccept={handleAcceptPrivacy}
+        onClose={handleClosePrivacy}
+      />
     </div>
   );
 }

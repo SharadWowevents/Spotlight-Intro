@@ -1,6 +1,7 @@
 import React from 'react';
+import { ShieldCheck } from 'lucide-react';
 
-export default function WelcomeScreen({ onStart }) {
+export default function WelcomeScreen({ onStart, onOpenPrivacy }) {
   return (
     <div className="welcome">
       <div className="kicker">Introduction Builder</div>
@@ -13,6 +14,17 @@ export default function WelcomeScreen({ onStart }) {
       <div className="navbar">
         <button className="btn btn-primary btn-wide" onClick={onStart}>
           Start →
+        </button>
+      </div>
+      <div className="welcome-privacy">
+        <ShieldCheck size={14} className="privacy-shield-icon" />
+        <span>By getting started, you agree to our </span>
+        <button 
+          type="button" 
+          className="privacy-link-btn" 
+          onClick={onOpenPrivacy}
+        >
+          Privacy Policy
         </button>
       </div>
     </div>
